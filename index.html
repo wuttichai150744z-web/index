@@ -129,7 +129,7 @@ p.sub{color:var(--soft);margin:0 0 18px;font-size:15px;animation:pop .6s .3s bot
 <main><div class="dots" id="dots"><i></i><i></i><i></i><i></i><i></i></div><div id="app"></div></main>
 <script>
 var S={step:0,what:null,part:null,date:null,t:''},V=new Date();V.setDate(1);
-var WHAT=[['🎬','ดูหนัง'],['🍜','กินของอร่อย'],['☕','นั่งคาเฟ่ยาวๆ'],['🌊','ขับรถไปทะเล'],['🎡','เดินตลาดนัด'],['🏠','อยู่บ้านเฉยๆ ก็ดี']];
+var WHAT=[['🎬','ดูหนัง'],['🍜','กินของอร่อย'],['☕','นั่งคาเฟ่ยาวๆ'],['🐠','ไปอควาเรียม'],['🎡','เดินตลาดนัด'],['🏠','อยู่บ้านเฉยๆ ก็ดี']];
 var PART=[['🌅','เช้าเลย'],['⛅','บ่ายๆ'],['🌇','เย็นๆ'],['🌙','ค่ำไปเลย']];
 var MON=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
 var DOW=['อา','จ','อ','พ','พฤ','ศ','ส'];
@@ -155,7 +155,7 @@ function render(){
   var s=S.step,h='';
   [].forEach.call(dots.children,function(d,i){d.className=i===s?'on':''});
   dots.style.visibility=s>4?'hidden':'visible';
-  if(s===0)h='<div class="mascot">🐰</div><h1>ว่างเสาร์นี้ปะ</h1><p class="sub">ถามตรงๆ เลย ไม่อ้อมแล้ว</p><div class="row"><button class="btn" id="yes">ว่าง ❤️</button><button class="btn ghost" id="no">ไม่ว่าง 🥺</button></div>';
+  if(s===0)h='<div class="mascot">🐰</div><h1>วันหยุดนี้ไปไหนดีน้าาาาา</h1><p class="sub">ถามตรงๆ เลย ไม่อ้อมแล้ว</p><div class="row"><button class="btn" id="yes">ว่าง ❤️</button><button class="btn ghost" id="no">ไม่ว่าง 🥺</button></div>';
   if(s===1)h='<div class="mascot">🐰🐥</div><h1>อยากทำอะไรดี</h1><p class="sub">เลือกเลย เดี๋ยวจัดให้</p>'+opts(WHAT,'what')+bk();
   if(s===2)h='<div class="mascot">🐰</div><h1>กี่โมงดี</h1><p class="sub">บอกมาเลย เดี๋ยวไปรอ</p>'+opts(PART,'part')+bk();
   if(s===3)h='<div class="mascot" style="font-size:56px">📅</div><h1>เมื่อไหร่ดี?</h1><p class="sub">จิ้มวันที่ แล้วเลือกเวลา</p><div class="box" id="cal">'+cal()+'</div><div class="box"><label>เวลา</label><div class="chips">'+TIMES[PART[S.part][1]].map(function(t){return '<button class="chip'+(S.t===t?' sel':'')+'" data-t="'+t+'">'+t+' น.</button>'}).join('')+'</div></div><div class="err" id="err"></div><div class="row"><button class="btn" id="next">ต่อไป</button></div>'+bk();
