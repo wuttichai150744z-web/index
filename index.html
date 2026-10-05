@@ -125,6 +125,31 @@ p.sub{color:var(--soft);margin:0 0 18px;font-size:15px;animation:pop .6s .3s bot
   p.sub{margin-bottom:12px}
 }
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important;animation-delay:0s!important;transition:none!important}}
+
+/* ===== PRO EFFECTS ===== */
+h1{background:linear-gradient(90deg,#ff9ed0,#fff,#b9a6ff,#ffd1e8,#ff9ed0);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 0 16px #e63c8699);animation:pop .7s .15s cubic-bezier(.3,1.8,.5,1) both,shine 5s linear infinite}
+@keyframes shine{to{background-position:300% 0}}
+.mascot{filter:drop-shadow(0 0 26px #ff6fae99)}
+.opt{box-shadow:0 8px 30px #0006,inset 0 0 0 1px #ffffff1a,inset 0 1px 0 #ffffff33;background:linear-gradient(145deg,#4a2a8a66,#2a164e88);transform:perspective(600px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));position:relative;overflow:hidden}
+.opt::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,0%),#ffffff40,transparent 55%);opacity:0;transition:opacity .3s;pointer-events:none}
+.opt:hover::before{opacity:1}
+.opt:hover,.opt:focus-visible{transform:perspective(600px) translateY(-6px) scale(1.07) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));box-shadow:0 0 0 2px var(--pink),0 0 36px #e63c86aa,0 16px 34px #0008}
+.btn:not(.ghost){background:linear-gradient(135deg,#ff6fae,#e63c86 50%,#b5179e);box-shadow:0 0 26px #e63c8699,inset 0 1px 0 #ffffff66}
+.btn::after{content:'';position:absolute;top:0;left:-70%;width:40%;height:100%;background:linear-gradient(100deg,transparent,#fffa,transparent);transform:skewX(-20deg);animation:sw 2.8s 1s infinite;pointer-events:none}
+@keyframes sw{to{left:140%}}
+.rp{position:absolute;border-radius:50%;background:#fff7;transform:scale(0);animation:rp .65s ease-out forwards;pointer-events:none;width:40px;height:40px;margin:-20px 0 0 -20px}
+@keyframes rp{to{transform:scale(7);opacity:0}}
+.box{border:1px solid #ffffff22;box-shadow:0 10px 40px #0005,inset 0 1px 0 #ffffff22}
+.ticket{position:relative;overflow:hidden;box-shadow:0 0 50px #e63c8677,inset 0 0 40px #e63c8625;border-image:none}
+.ticket::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,#ffffff2e 44%,#ff9ed040 50%,#9ed0ff40 56%,transparent 70%);background-size:260% 100%;animation:holo 3.5s linear infinite;pointer-events:none}
+@keyframes holo{from{background-position:160% 0}to{background-position:-160% 0}}
+.cd.sel{box-shadow:0 0 18px #e63c86}
+.tr{position:fixed;z-index:9;pointer-events:none;font-size:13px;animation:tr .9s ease-out forwards}
+@keyframes tr{to{transform:translate(var(--x),var(--y)) scale(0) rotate(90deg);opacity:0}}
+.fh{position:fixed;bottom:-40px;z-index:1;pointer-events:none;opacity:.0;animation:fh var(--d) linear forwards}
+@keyframes fh{0%{opacity:0;transform:translateY(0) translateX(0) scale(.6)}10%{opacity:.7}50%{transform:translateY(-55vh) translateX(var(--sw)) rotate(15deg) scale(1)}100%{opacity:0;transform:translateY(-115vh) translateX(calc(var(--sw)*-1)) rotate(-20deg) scale(.8)}}
+.fw{position:fixed;z-index:9;pointer-events:none;animation:sp 1.1s ease-out forwards}
+@media(prefers-reduced-motion:reduce){.fh,.tr{display:none}}
 </style></head><body>
 <main><div class="dots" id="dots"><i></i><i></i><i></i><i></i><i></i></div><div id="app"></div></main>
 <script>
@@ -163,7 +188,7 @@ function render(){
   if(s===5)h='<div class="mascot">🎉</div><h1>ส่งสำเร็จ!</h1><p class="sub">คัดลอกคำตอบแล้วส่งให้เขาได้เลย 💕</p><div class="box" style="text-align:left;white-space:pre-line">'+esc(summary())+'</div><div class="row"><button class="btn" id="copy">คัดลอกข้อความ</button><button class="btn ghost" id="again">เริ่มใหม่</button></div>';
   if(s===6)h='<div class="mascot">🥺</div><h1>ไม่เป็นไรนะ</h1><p class="sub">ไว้วันอื่นนะ ไว้ชวนใหม่ได้เสมอ</p><button class="btn ghost" id="again">กลับไปเปลี่ยนใจ</button>';
   app.innerHTML='<div class="pg">'+h+'</div>';document.querySelector('main').scrollTop=0;bind();
-  fi=0;setBun();if(s===5)confetti();
+  fi=0;setBun();if(s===5){confetti();fireworks()}
 }
 function bind(){
   function on(i,f){var e=$(i);if(e)e.onclick=f}
@@ -265,5 +290,38 @@ function swap(){var el=document.querySelector('.mascot'),l=EXP[S.step];if(!el||!
   if(el.animate)el.animate([{transform:'scale(.6) rotate(-12deg)'},{transform:'scale(1.15) rotate(6deg)',offset:.6},{transform:'none'}],{duration:420,easing:'ease-out'})}
 setInterval(swap,2400);
 document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.mascot'))swap()});
+
+/* ===== PRO EFFECTS JS ===== */
+(function(){
+  var rm=matchMedia('(prefers-reduced-motion:reduce)').matches,last=0,TR=['✨','💖','⭐','🌸','💗'];
+  if(!rm)document.addEventListener('pointermove',function(e){
+    var o=e.target.closest&&e.target.closest('.opt');
+    if(o&&e.pointerType==='mouse'){var r=o.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+      o.style.setProperty('--ry',((px-.5)*22).toFixed(1)+'deg');o.style.setProperty('--rx',((.5-py)*22).toFixed(1)+'deg');
+      o.style.setProperty('--mx',px*100+'%');o.style.setProperty('--my',py*100+'%')}
+    var n=performance.now();if(n-last<45)return;last=n;
+    var s=document.createElement('div');s.className='tr';s.textContent=TR[Math.random()*5|0];
+    s.style.left=e.clientX+'px';s.style.top=e.clientY+'px';
+    s.style.setProperty('--x',(Math.random()-.5)*50+'px');s.style.setProperty('--y',(20+Math.random()*40)+'px');
+    document.body.appendChild(s);setTimeout(function(){s.remove()},900)});
+  document.addEventListener('pointerout',function(e){var o=e.target.closest&&e.target.closest('.opt');
+    if(o){o.style.setProperty('--rx','0deg');o.style.setProperty('--ry','0deg')}});
+  document.addEventListener('pointerdown',function(e){var b=e.target.closest&&e.target.closest('.btn');if(!b)return;
+    var r=b.getBoundingClientRect(),p=document.createElement('span');p.className='rp';
+    p.style.left=(e.clientX-r.left)+'px';p.style.top=(e.clientY-r.top)+'px';b.appendChild(p);setTimeout(function(){p.remove()},700)});
+  if(!rm)setInterval(function(){if(document.hidden||document.querySelectorAll('.fh').length>14)return;
+    var h=document.createElement('div');h.className='fh';h.textContent=['💗','💖','💕','🌸','✨'][Math.random()*5|0];
+    h.style.left=Math.random()*100+'vw';h.style.fontSize=(14+Math.random()*20)+'px';
+    h.style.setProperty('--d',(7+Math.random()*6)+'s');h.style.setProperty('--sw',(Math.random()*80-40)+'px');
+    document.body.appendChild(h);setTimeout(function(){h.remove()},14000)},650);
+  window.fireworks=function(){if(rm)return;
+    for(var b=0;b<6;b++)setTimeout(function(){
+      var x=innerWidth*(.15+Math.random()*.7),y=innerHeight*(.15+Math.random()*.45),E=['✨','💖','⭐','🌸','💫','🎀'];
+      for(var i=0;i<26;i++){var s=document.createElement('div');s.className='fw';s.textContent=E[i%6];
+        s.style.left=x+'px';s.style.top=y+'px';s.style.fontSize=(14+Math.random()*14)+'px';
+        var a=i/26*6.283,d=70+Math.random()*110;
+        s.style.setProperty('--x',Math.cos(a)*d+'px');s.style.setProperty('--y',Math.sin(a)*d+'px');
+        document.body.appendChild(s);setTimeout(function(el){el.remove()}.bind(null,s),1150)}},b*420)};
+})();
 render();
 </script></body></html>
