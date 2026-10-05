@@ -127,12 +127,13 @@ p.sub{color:var(--soft);margin:0 0 18px;font-size:15px;animation:pop .6s .3s bot
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important;animation-delay:0s!important;transition:none!important}}
 
 /* ===== PRO EFFECTS ===== */
-h1{background:linear-gradient(90deg,#ff9ed0,#fff,#b9a6ff,#ffd1e8,#ff9ed0);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 0 16px #e63c8699);animation:pop .7s .15s cubic-bezier(.3,1.8,.5,1) both,shine 5s linear infinite}
+h1{line-height:1.55;padding:.08em .1em;overflow-wrap:anywhere;background:linear-gradient(90deg,#ff9ed0,#fff,#b9a6ff,#ffd1e8,#ff9ed0);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 0 16px #e63c8699);animation:pop .7s .15s cubic-bezier(.3,1.8,.5,1) both,shine 5s linear infinite}
 @keyframes shine{to{background-position:300% 0}}
 .mascot{filter:drop-shadow(0 0 26px #ff6fae99)}
 .opt{box-shadow:0 8px 30px #0006,inset 0 0 0 1px #ffffff1a,inset 0 1px 0 #ffffff33;background:linear-gradient(145deg,#4a2a8a66,#2a164e88);transform:perspective(600px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));position:relative;overflow:hidden}
 .opt::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,0%),#ffffff40,transparent 55%);opacity:0;transition:opacity .3s;pointer-events:none}
 .opt:hover::before{opacity:1}
+.opt:hover{transition:transform .08s linear,border-color .2s,box-shadow .2s}
 .opt:hover,.opt:focus-visible{transform:perspective(600px) translateY(-6px) scale(1.07) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));box-shadow:0 0 0 2px var(--pink),0 0 36px #e63c86aa,0 16px 34px #0008}
 .btn:not(.ghost){background:linear-gradient(135deg,#ff6fae,#e63c86 50%,#b5179e);box-shadow:0 0 26px #e63c8699,inset 0 1px 0 #ffffff66}
 .btn::after{content:'';position:absolute;top:0;left:-70%;width:40%;height:100%;background:linear-gradient(100deg,transparent,#fffa,transparent);transform:skewX(-20deg);animation:sw 2.8s 1s infinite;pointer-events:none}
@@ -180,7 +181,7 @@ function render(){
   var s=S.step,h='';
   [].forEach.call(dots.children,function(d,i){d.className=i===s?'on':''});
   dots.style.visibility=s>4?'hidden':'visible';
-  if(s===0)h='<div class="mascot">🐰</div><h1>วันหยุดนี้ไปไหนดีน้าาาาา</h1><p class="sub">ถามตรงๆ เลย ไม่อ้อมแล้ว</p><div class="row"><button class="btn" id="yes">ว่าง ❤️</button><button class="btn ghost" id="no">ไม่ว่าง 🥺</button></div>';
+  if(s===0)h='<div class="mascot">🐰</div><h1>วันหยุดนี้ไปไหนดีน้าาาาา</h1><p class="sub">ถามตรงๆ เลย ไม่อ้อมแล้ว</p><div class="row"><button class="btn" id="yes">ไปด้วย ❤️</button><button class="btn ghost" id="no">ไม่ไปอะ 🥺</button></div>';
   if(s===1)h='<div class="mascot">🐰🐥</div><h1>อยากทำอะไรดี</h1><p class="sub">เลือกเลย เดี๋ยวจัดให้</p>'+opts(WHAT,'what')+bk();
   if(s===2)h='<div class="mascot">🐰</div><h1>กี่โมงดี</h1><p class="sub">บอกมาเลย เดี๋ยวไปรอ</p>'+opts(PART,'part')+bk();
   if(s===3)h='<div class="mascot" style="font-size:56px">📅</div><h1>เมื่อไหร่ดี?</h1><p class="sub">จิ้มวันที่ แล้วเลือกเวลา</p><div class="box" id="cal">'+cal()+'</div><div class="box"><label>เวลา</label><div class="chips">'+TIMES[PART[S.part][1]].map(function(t){return '<button class="chip'+(S.t===t?' sel':'')+'" data-t="'+t+'">'+t+' น.</button>'}).join('')+'</div></div><div class="err" id="err"></div><div class="row"><button class="btn" id="next">ต่อไป</button></div>'+bk();
@@ -305,7 +306,7 @@ document.addEventListener('click',function(e){if(e.target.closest&&e.target.clos
     s.style.setProperty('--x',(Math.random()-.5)*50+'px');s.style.setProperty('--y',(20+Math.random()*40)+'px');
     document.body.appendChild(s);setTimeout(function(){s.remove()},900)});
   document.addEventListener('pointerout',function(e){var o=e.target.closest&&e.target.closest('.opt');
-    if(o){o.style.setProperty('--rx','0deg');o.style.setProperty('--ry','0deg')}});
+    if(o&&!o.contains(e.relatedTarget)){o.style.setProperty('--rx','0deg');o.style.setProperty('--ry','0deg')}});
   document.addEventListener('pointerdown',function(e){var b=e.target.closest&&e.target.closest('.btn');if(!b)return;
     var r=b.getBoundingClientRect(),p=document.createElement('span');p.className='rp';
     p.style.left=(e.clientX-r.left)+'px';p.style.top=(e.clientY-r.top)+'px';b.appendChild(p);setTimeout(function(){p.remove()},700)});
